@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>USA Software Store | Official Digital Licenses</title>
+  <style>
+    :root {
+      --bg: #0b1120;
+      --card: #111827;
+      --border: #1f2937;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --accent: #10b981;
+      --text: #f9fafb;
+      --muted: #9ca3af;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+    body { background: var(--bg); color: var(--text); line-height: 1.6; }
+    header {
+      background: rgba(17, 24, 39, 0.9);
+      border-bottom: 1px solid var(--border);
+      padding: 18px 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .logo { font-size: 1.4rem; font-weight: 700; color: #fff; }
+    .logo span { color: var(--primary); }
+    .badge { background: rgba(16, 185, 129, 0.15); color: var(--accent); padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
+    .hero {
+      text-align: center;
+      padding: 70px 6% 50px;
+      background: radial-gradient(circle at top, #1e293b 0%, var(--bg) 70%);
+    }
+    .hero h1 { font-size: 2.5rem; margin-bottom: 14px; }
+    .hero p { color: var(--muted); max-width: 600px; margin: 0 auto 24px; font-size: 1.05rem; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 20px 6% 70px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .card:hover { transform: translateY(-4px); border-color: var(--primary); }
+    .tag { font-size: 0.75rem; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 8px; }
+    .card h3 { font-size: 1.25rem; margin-bottom: 10px; }
+    .card p { color: var(--muted); font-size: 0.92rem; margin-bottom: 20px; }
+    .price-row { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 16px; }
+    .price { font-size: 1.35rem; font-weight: 700; color: #fff; }
+    .price small { font-size: 0.8rem; color: var(--accent); }
+    .btn {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: var(--primary-hover); }
+
+    /* Checkout Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      z-index: 100;
+    }
+    .modal-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      max-width: 460px;
+      width: 100%;
+      padding: 26px;
+      position: relative;
+    }
+    .close-btn { position: absolute; top: 16px; right: 18px; background: none; border: none; color: var(--muted); font-size: 1.4rem; cursor: pointer; }
+    .wallet-box {
+      background: #0b1120;
+      border: 1px dashed var(--accent);
+      padding: 12px;
+      border-radius: 8px;
+      margin: 14px 0;
+      word-break: break-all;
+      font-size: 0.88rem;
+    }
+    .copy-btn {
+      margin-top: 8px;
+      background: var(--accent);
+      color: #06281e;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.82rem;
+    }
+    .form-group { margin-bottom: 14px; }
+    .form-group label { display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 5px; }
+    .form-group input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #0b1120;
+      color: #fff;
+    }
+    footer { text-align: center; padding: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo" id="storeTitle">USA <span>Software</span> Store</div>
+    <div class="badge">Instant Delivery • USDT (TRC-20)</div>
+  </header>
+
+  <section class="hero">
+    <h1 id="heroHeadline">Genuine US Software & Cloud Licenses</h1>
+    <p>100% authentic activation keys delivered directly to your inbox within minutes after USDT confirmation.</p>
+  </section>
+
+  <main class="container">
+    <div class="grid" id="productGrid"></div>
+  </main>
+
+  <!-- Checkout Modal -->
+  <div class="modal" id="checkoutModal">
+    <div class="modal-box">
+      <button class="close-btn" onclick="closeModal()">&times;</button>
+      <h3 id="modalProductName">Software License</h3>
+      <p style="color: var(--accent); font-weight: 700; margin-top: 4px;">Amount to Pay: <span id="modalPrice">0</span> USDT (TRC-20)</p>
+
+      <div class="wallet-box">
+        <div style="font-size: 0.78rem; color: var(--muted); margin-bottom: 4px;">Send exact USDT (TRC-20 Network) to:</div>
+        <strong id="walletDisplay"></strong><br />
+        <button type="button" class="copy-btn" onclick="copyWallet()">Copy Wallet Address</button>
+      </div>
+
+      <form id="orderForm">
+        <input type="hidden" name="access_key" id="formAccessKey" />
+        <input type="hidden" name="subject" value="New Software Store Order (USDT)" />
+        <input type="hidden" name="product" id="formProduct" />
+        <input type="hidden" name="amount_usdt" id="formAmount" />
+
+        <div class="form-group">
+          <label>Your Email (For License Delivery)</label>
+          <input type="email" name="customer_email" required placeholder="you@example.com" />
+        </div>
+        <div class="form-group">
+          <label>USDT Transaction ID (TxID / Hash)</label>
+          <input type="text" name="transaction_id" required placeholder="Paste your TRC-20 TxID here" />
+        </div>
+        <button type="submit" class="btn" style="width: 100%;">Confirm Payment & Submit Order</button>
+      </form>
+      <p id="statusMsg" style="margin-top: 12px; font-size: 0.9rem; text-align: center;"></p>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2026 <span id="footerName">USA Software Store</span>. All Rights Reserved.
+  </footer>
+
+  <script>
+    // ============================================================
+    //
+    // ============================================================
+    const STORE_CONFIG = {
+      companyName: "USA Software Store",
+      usdtWalletAddress: "TTZ39giT5pecYKcXTsPKGjWFcaJ63DM4ri",
+      web3formsAccessKey: "4930af2f-32bc-4f1c-8941-481d6039ee16"
+    };
+
+    // 
+    const PRODUCTS = [
+      { tag: "Operating System", name: "Windows 11 Pro Retail Key", desc: "Lifetime activation for 1 PC. Official Microsoft global key.", price: 19 },
+      { tag: "Productivity", name: "Microsoft Office 2024 Pro Plus", desc: "Full suite including Word, Excel, PowerPoint & Outlook.", price: 29 },
+      { tag: "Creative Suite", name: "Adobe Creative Cloud (1 Year)", desc: "All 20+ Adobe apps with 100GB cloud storage.", price: 55 },
+      { tag: "Security & VPN", name: "NordVPN / Enterprise Security (1 Yr)", desc: "High-speed US servers and multi-device protection.", price: 15 }
+    ];
+    // ============================================================
+
+    document.getElementById("storeTitle").innerText = STORE_CONFIG.companyName;
+    document.getElementById("footerName").innerText = STORE_CONFIG.companyName;
+    document.getElementById("walletDisplay").innerText = STORE_CONFIG.usdtWalletAddress;
+    document.getElementById("formAccessKey").value = STORE_CONFIG.web3formsAccessKey;
+
+    const grid = document.getElementById("productGrid");
+    PRODUCTS.forEach((item) => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <div>
+          <div class="tag">${item.tag}</div>
+          <h3>${item.name}</h3>
+          <p>${item.desc}</p>
+        </div>
+        <div class="price-row">
+          <div class="price">${item.price} <small>USDT</small></div>
+          <button class="btn" onclick="openModal('${item.name}', ${item.price})">Buy Now</button>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+
+    function openModal(name, price) {
+      document.getElementById("modalProductName").innerText = name;
+      document.getElementById("modalPrice").innerText = price;
+      document.getElementById("formProduct").value = name;
+      document.getElementById("formAmount").value = price + " USDT";
+      document.getElementById("statusMsg").innerText = "";
+      document.getElementById("checkoutModal").style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById("checkoutModal").style.display = "none";
+    }
+
+    function copyWallet() {
+      navigator.clipboard.writeText(STORE_CONFIG.usdtWalletAddress);
+      alert("USDT (TRC-20) Wallet Address Copied!");
+    }
+
+    document.getElementById("orderForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const status = document.getElementById("statusMsg");
+      status.style.color = "#9ca3af";
+      status.innerText = "Submitting order...";
+
+      const formData = new FormData(this);
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData
+      });
+      const data = await res.json();
+      if (data.success) {
+        status.style.color = "#10b981";
+        status.innerText = "Order received! Your license key will be sent to your email shortly.";
+        this.reset();
+      } else {
+        status.style.color = "#ef4444";
+        status.innerText = "Error submitting order. Please check your Web3Forms Access Key.";
+      }
+    });
+  </script>
+</body>
+</html>
